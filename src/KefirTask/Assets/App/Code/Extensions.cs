@@ -33,5 +33,38 @@ namespace App.Code
         public static Entity LinkWith(this Entity entity, GameObject gameObject) =>
             entity
                 .With(e => e.AddComponent<LinkComponent>().LinkWith = gameObject);
+
+        public static float Loop(this float value, float minValue, float maxValue)
+        {
+            if (value < minValue) return maxValue;
+            
+            if (value > maxValue) return minValue;
+            
+            return value;
+        }
+        
+        public static Vector2 Loop(this Vector2 value, Vector2 minValue, Vector2 maxValue)
+        {
+            value.x = value.x.Loop(minValue.x, maxValue.x);
+            value.y = value.y.Loop(minValue.y, maxValue.y);
+            return value;
+        }
+        
+        public static Vector3 Loop(this Vector3 value, Vector3 minValue, Vector3 maxValue)
+        {
+            value.x = value.x.Loop(minValue.x, maxValue.x);
+            value.y = value.y.Loop(minValue.y, maxValue.y);
+            value.z = value.z.Loop(minValue.z, maxValue.z);
+            return value;
+        }
+
+        public static Vector3 To3D(this Vector2 vector) => 
+            new(vector.x, 0, vector.y);
+        
+        public static Vector2 To2D(this Vector3 vector) => 
+            new(vector.x, vector.z);
+
+        public static float ToRadians(this float degrees) => 
+            degrees * (Mathf.PI / 180.0f);
     }
 }

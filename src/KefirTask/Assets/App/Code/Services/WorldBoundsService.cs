@@ -1,11 +1,10 @@
-﻿using App.ECS;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace App.Code.Services
 {
-    public class WorldBoundsService : IService
+    public class WorldBoundsService : IWorldBoundsService
     {
-        public Vector2 WorldBounds;
+        public Vector2 WorldBounds { get; private set; }
 
         private readonly Camera _mainCamera;
         private readonly IScreenSizeService _screenSizeService;
@@ -27,7 +26,7 @@ namespace App.Code.Services
             }
         }
 
-        private void UpdateBounds() => 
+        private void UpdateBounds() =>
             WorldBounds = _mainCamera.ScreenToWorldPoint(_screenSize);
     }
 }

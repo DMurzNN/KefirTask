@@ -16,6 +16,7 @@ namespace App.Code.Core
         public Camera MainCamera;
         public GameObject TestLink;
         public CollisionAdapter TestAdapter;
+        public AnimationCurve TestInertiaCurve;
 
         private World _mainWorld;
 
@@ -30,8 +31,13 @@ namespace App.Code.Core
             _mainWorld = new World();
 
             IScreenSizeService screenSizeService = new ScreenSizeService();
-            var worldBoundsService = new WorldBoundsService(MainCamera, screenSizeService);
+            ITimeService timeService = new UnityTimeService();
+            IInputService inputService = new UnityInputService();
+            IWorldBoundsService worldBoundsService = new WorldBoundsService(MainCamera, screenSizeService);
+            
             _mainWorld
+                .AddService(timeService)
+                .AddService(inputService)
                 .AddService(screenSizeService)
                 .AddService(worldBoundsService);
 
@@ -39,8 +45,16 @@ namespace App.Code.Core
                 .AddEntity(new Entity()
                     .With<LogComponent>())
                 .AddEntity(new Entity()
+                    .With<ForwardComponent>()
                     .With<PositionComponent>()
                     .With<SpeedComponent>()
+                    .With<RotateComponent>()
+                    .With<RotateSpeedComponent>()
+                    .With<DynamicComponent>()
+                    .With(new InertiaComponent
+                    {
+                        InertiaCurve = TestInertiaCurve
+                    })
                     .With(new CollisionComponent
                     {
                         CollisionAdapter = TestAdapter
@@ -49,8 +63,12 @@ namespace App.Code.Core
 
             _mainWorld
                 .AddSystem(new LogSystem())
-                .AddSystem(new MoveSystem(worldBoundsService))
+                .AddSystem(new MoveSystem(worldBoundsService, inputService, timeService))
+                .AddSystem(new RotateSystem(timeService, inputService))
+                .AddSystem(new ForwardSystem())
+                .AddSystem(new InertiaSystem(timeService, worldBoundsService))
                 .AddSystem(new LinkPositionSystem())
+                .AddSystem(new LinkRotationSystem())
                 .AddSystem(new CollisionSystem());
         }
 

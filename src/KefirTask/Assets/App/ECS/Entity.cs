@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using App.ECS.Components;
 using Sirenix.OdinInspector;
 
 namespace App.ECS
