@@ -11,6 +11,7 @@ namespace App.ECS
 #if UNITY_EDITOR
         [ShowInInspector] public Entity[] Entities => _entities.ToArray();
 #endif
+        
         private readonly HashSet<System> _systems;
         private readonly HashSet<Entity> _entities;
 

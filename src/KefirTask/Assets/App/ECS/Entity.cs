@@ -11,6 +11,7 @@ namespace App.ECS
 #if UNITY_EDITOR
         [ShowInInspector] private Component[] Components => _components.Values.ToArray();
 #endif
+        
         private readonly Dictionary<Type, Component> _components;
 
         public Entity() =>
