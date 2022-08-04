@@ -11,7 +11,7 @@ namespace App.ECS
 #if UNITY_EDITOR
         [ShowInInspector] private Component[] Components => _components.Values.ToArray();
 #endif
-        
+
         private readonly Dictionary<Type, Component> _components;
 
         public Entity() =>
@@ -39,11 +39,12 @@ namespace App.ECS
         {
             if (_components.Count < components.Length) return false;
 
+            var componentCount = 0;
             foreach (var component in _components)
-                if (!components.Contains(component.Value.GetType()))
-                    return false;
+                if (components.Contains(component.Value.GetType()))
+                    componentCount++;
 
-            return true;
+            return componentCount == components.Length;
         }
 
         public Entity With<TComponent>() where TComponent : Component, new()

@@ -4,13 +4,15 @@ using App.ECS;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace App.Code
+namespace App.Code.Core
 {
     public class WorldExecutor : MonoBehaviour
     {
 #if UNITY_EDITOR
         [ShowInInspector] private World World => _mainWorld;
 #endif
+        public GameObject TestLink;
+        
         private World _mainWorld;
 
         private void Awake() =>
@@ -22,13 +24,20 @@ namespace App.Code
         private void ConstructWorld()
         {
             _mainWorld = new World();
-            _mainWorld.AddEntity(LogEntity());
-            _mainWorld.AddSystem(new LogSystem());
-        }
 
-        private static Entity LogEntity() =>
-            new Entity()
-                .With<LogComponent>();
+            _mainWorld
+                .AddEntity(new Entity()
+                    .With<LogComponent>())
+                .AddEntity(new Entity()
+                    .With<PositionComponent>()
+                    .With<SpeedComponent>()
+                    .LinkWith(TestLink));
+
+            _mainWorld
+                .AddSystem(new LogSystem())
+                .AddSystem(new MoveSystem())
+                .AddSystem(new LinkPositionSystem());
+        }
 
 #if UNITY_EDITOR
         [Button(ButtonStyle.FoldoutButton), DisableInEditorMode]
