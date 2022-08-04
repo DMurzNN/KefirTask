@@ -1,6 +1,7 @@
 ﻿using System;
 using App.Code.Components;
 using App.ECS;
+using App.ECS.Components;
 using UnityEngine;
 
 namespace App.Code

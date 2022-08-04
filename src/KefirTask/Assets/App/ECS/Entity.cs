@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using App.ECS.Components;
 using Sirenix.OdinInspector;
 
 namespace App.ECS
@@ -16,6 +17,15 @@ namespace App.ECS
 
         public Entity() =>
             _components = new Dictionary<Type, Component>();
+        
+        public TComponent AddComponent<TComponent>(TComponent component) where TComponent : Component
+        {
+            if (_components.TryGetValue(typeof(TComponent), out var existComponent))
+                return (TComponent) existComponent;
+
+            _components.Add(typeof(TComponent), component);
+            return component;
+        }
 
         public TComponent AddComponent<TComponent>() where TComponent : Component, new()
         {
@@ -35,6 +45,9 @@ namespace App.ECS
             return null;
         }
 
+        public bool HasComponent<T>() => 
+            _components.ContainsKey(typeof(T));
+
         public bool ContainsComponents(Type[] components)
         {
             if (_components.Count < components.Length) return false;
@@ -50,6 +63,12 @@ namespace App.ECS
         public Entity With<TComponent>() where TComponent : Component, new()
         {
             AddComponent<TComponent>();
+            return this;
+        }
+        
+        public Entity With<TComponent>(TComponent component) where TComponent : Component
+        {
+            AddComponent(component);
             return this;
         }
     }

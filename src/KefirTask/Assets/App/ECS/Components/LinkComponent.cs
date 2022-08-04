@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using Component = App.ECS.Component;
+﻿using System;
+using UnityEngine;
 
-namespace App.Code.Components
+namespace App.ECS.Components
 {
+    [Serializable]
     public class LinkComponent : Component
     {
         public GameObject LinkWith;

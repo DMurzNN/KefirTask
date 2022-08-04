@@ -1,4 +1,6 @@
-﻿using App.Code.Components;
+﻿using App.Code.Adapters;
+using App.Code.Components;
+using App.Code.Services;
 using App.Code.Systems;
 using App.ECS;
 using Sirenix.OdinInspector;
@@ -11,8 +13,10 @@ namespace App.Code.Core
 #if UNITY_EDITOR
         [ShowInInspector] private World World => _mainWorld;
 #endif
+        public Camera MainCamera;
         public GameObject TestLink;
-        
+        public CollisionAdapter TestAdapter;
+
         private World _mainWorld;
 
         private void Awake() =>
@@ -25,18 +29,29 @@ namespace App.Code.Core
         {
             _mainWorld = new World();
 
+            IScreenSizeService screenSizeService = new ScreenSizeService();
+            var worldBoundsService = new WorldBoundsService(MainCamera, screenSizeService);
+            _mainWorld
+                .AddService(screenSizeService)
+                .AddService(worldBoundsService);
+
             _mainWorld
                 .AddEntity(new Entity()
                     .With<LogComponent>())
                 .AddEntity(new Entity()
                     .With<PositionComponent>()
                     .With<SpeedComponent>()
+                    .With(new CollisionComponent
+                    {
+                        CollisionAdapter = TestAdapter
+                    })
                     .LinkWith(TestLink));
 
             _mainWorld
                 .AddSystem(new LogSystem())
-                .AddSystem(new MoveSystem())
-                .AddSystem(new LinkPositionSystem());
+                .AddSystem(new MoveSystem(worldBoundsService))
+                .AddSystem(new LinkPositionSystem())
+                .AddSystem(new CollisionSystem());
         }
 
 #if UNITY_EDITOR
