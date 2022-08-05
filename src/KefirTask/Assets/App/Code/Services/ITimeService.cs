@@ -5,5 +5,6 @@ namespace App.Code.Services
     public interface ITimeService : IService
     {
         public float DeltaTime { get; }
+        public float PrevDeltaTime { get; }
     }
 }

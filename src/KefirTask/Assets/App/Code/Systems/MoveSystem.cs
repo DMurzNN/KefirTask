@@ -2,6 +2,7 @@
 using App.Code.Components;
 using App.Code.Services;
 using App.ECS;
+using UnityEngine;
 
 namespace App.Code.Systems
 {
@@ -19,25 +20,44 @@ namespace App.Code.Systems
         }
 
         public override Type[] Filters => new[]
-            {typeof(SpeedComponent), typeof(PositionComponent), typeof(DynamicComponent), typeof(ForwardComponent)};
+        {
+            typeof(SpeedComponent), typeof(PositionComponent), typeof(ForwardComponent), typeof(AccelerationComponent)
+        };
 
         protected override void Execute(Entity entity)
         {
-            var speed = entity.GetComponent<SpeedComponent>().Speed;
+            var speed = entity.GetComponent<SpeedComponent>();
             var position = entity.GetComponent<PositionComponent>();
-            var dynamic = entity.GetComponent<DynamicComponent>();
             var forward = entity.GetComponent<ForwardComponent>();
+            var acceleration = entity.GetComponent<AccelerationComponent>();
 
             var vertical = _inputService.Vertical;
             var worldBounds = _worldBoundsService.WorldBounds.To3D();
-            if (vertical > 0.0f)
+            var moveSpeed = vertical == 0 ? -1.0f : vertical;
+
+            var newAccelerationDirection = CalcDirection(acceleration.AccelerationDirection, forward.Forward, moveSpeed,
+                acceleration.Acceleration, moveSpeed >= 0, acceleration.Deceleration);
+            var newPosition = position.Position + newAccelerationDirection;
+            var newSpeed = (newPosition - position.Position).magnitude / _timeService.PrevDeltaTime;
+
+            if (vertical <= 0.0f && speed.Speed.InRange(0.0f, 0.005f))
             {
-                position.Position += forward.Forward * speed * _timeService.DeltaTime * vertical;
-                position.Position = position.Position.Loop(-worldBounds, worldBounds);
+                speed.Speed = 0.0f;
+                acceleration.AccelerationDirection = Vector3.zero;
+                return;
             }
-            dynamic.IsDynamic = vertical > 0.0f;
-            if (vertical > 0.0f)
-                dynamic.IsMoved = true;
+
+            acceleration.AccelerationDirection = newAccelerationDirection;
+            speed.Speed = newSpeed;
+
+            position.Position = newPosition;
+            position.Position = position.Position.Loop(-worldBounds, worldBounds);
         }
+
+        private Vector3 CalcDirection(Vector3 direction, Vector3 forward, float moveSpeed,
+            float acceleration, bool accelerate, float deceleration) =>
+            accelerate
+                ? direction + forward * moveSpeed * acceleration * _timeService.DeltaTime
+                : direction + direction * moveSpeed * deceleration * _timeService.DeltaTime;
     }
 }

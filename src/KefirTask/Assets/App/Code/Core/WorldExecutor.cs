@@ -45,16 +45,13 @@ namespace App.Code.Core
                 .AddEntity(new Entity()
                     .With<LogComponent>())
                 .AddEntity(new Entity()
+                    .With<AccelerationComponent>()
                     .With<ForwardComponent>()
                     .With<PositionComponent>()
                     .With<SpeedComponent>()
                     .With<RotateComponent>()
                     .With<RotateSpeedComponent>()
-                    .With<DynamicComponent>()
-                    .With(new InertiaComponent
-                    {
-                        InertiaCurve = TestInertiaCurve
-                    })
+                    .With<RotateAccelerateComponent>()
                     .With(new CollisionComponent
                     {
                         CollisionAdapter = TestAdapter
@@ -66,7 +63,6 @@ namespace App.Code.Core
                 .AddSystem(new MoveSystem(worldBoundsService, inputService, timeService))
                 .AddSystem(new RotateSystem(timeService, inputService))
                 .AddSystem(new ForwardSystem())
-                .AddSystem(new InertiaSystem(timeService, worldBoundsService))
                 .AddSystem(new LinkPositionSystem())
                 .AddSystem(new LinkRotationSystem())
                 .AddSystem(new CollisionSystem());

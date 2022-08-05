@@ -66,5 +66,22 @@ namespace App.Code
 
         public static float ToRadians(this float degrees) => 
             degrees * (Mathf.PI / 180.0f);
+
+        public static bool InRange(this float value, Vector2 delta) =>
+            value >= delta.x && value <= delta.y;
+
+        public static bool InRange(this float value, float targetValue, float delta) =>
+            value.InRange(new Vector2(targetValue - delta, targetValue + delta));
+
+        public static float Sign(this float value) =>
+            value switch
+            {
+                > 0.0f => 1.0f,
+                < 0.0f => -1.0f,
+                _ => 0.0f
+            };
+
+        public static float Abs(this float value) =>
+            Mathf.Abs(value);
     }
 }
