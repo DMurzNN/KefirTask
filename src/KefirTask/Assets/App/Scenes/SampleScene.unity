@@ -558,30 +558,7 @@ MonoBehaviour:
   MainCamera: {fileID: 963194227}
   TestLink: {fileID: 844000334}
   TestAdapter: {fileID: 844000339}
-  TestInertiaCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 5
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  Bullet: {fileID: 3416555593128674414, guid: de271aac73f84e241ba914b861af0d08, type: 3}
 --- !u!4 &1009485130
 Transform:
   m_ObjectHideFlags: 0

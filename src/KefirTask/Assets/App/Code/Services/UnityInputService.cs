@@ -10,6 +10,7 @@ namespace App.Code.Services
         public float Horizontal { get; private set; }
 
         public float Vertical { get; private set; }
+        public bool ShootBullet { get; private set; }
 
         public void Update()
         {
@@ -26,6 +27,8 @@ namespace App.Code.Services
                 Horizontal = -1.0f;
             else
                 Horizontal = 0.0f;
+
+            ShootBullet = Input.GetMouseButtonDown(0);
         }
     }
 }

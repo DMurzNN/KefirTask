@@ -8,5 +8,6 @@ namespace App.Code.Services
         public Vector2 MainAxis { get; }
         public float Horizontal { get; }
         public float Vertical { get; }
+        public bool ShootBullet { get; }
     }
 }

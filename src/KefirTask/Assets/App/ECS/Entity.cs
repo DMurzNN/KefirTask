@@ -11,12 +11,16 @@ namespace App.ECS
 #if UNITY_EDITOR
         [ShowInInspector] private Component[] Components => _components.Values.ToArray();
 #endif
+        public string Name { get; private set; }
 
         private readonly Dictionary<Type, Component> _components;
 
-        public Entity() =>
+        public Entity(string name)
+        {
+            Name = name;
             _components = new Dictionary<Type, Component>();
-        
+        }
+
         public TComponent AddComponent<TComponent>(TComponent component) where TComponent : Component
         {
             if (_components.TryGetValue(typeof(TComponent), out var existComponent))
@@ -44,7 +48,7 @@ namespace App.ECS
             return null;
         }
 
-        public bool HasComponent<T>() => 
+        public bool HasComponent<T>() =>
             _components.ContainsKey(typeof(T));
 
         public bool ContainsComponents(Type[] components)
@@ -64,7 +68,7 @@ namespace App.ECS
             AddComponent<TComponent>();
             return this;
         }
-        
+
         public Entity With<TComponent>(TComponent component) where TComponent : Component
         {
             AddComponent(component);

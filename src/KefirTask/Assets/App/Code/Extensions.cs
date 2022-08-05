@@ -37,19 +37,19 @@ namespace App.Code
         public static float Loop(this float value, float minValue, float maxValue)
         {
             if (value < minValue) return maxValue;
-            
+
             if (value > maxValue) return minValue;
-            
+
             return value;
         }
-        
+
         public static Vector2 Loop(this Vector2 value, Vector2 minValue, Vector2 maxValue)
         {
             value.x = value.x.Loop(minValue.x, maxValue.x);
             value.y = value.y.Loop(minValue.y, maxValue.y);
             return value;
         }
-        
+
         public static Vector3 Loop(this Vector3 value, Vector3 minValue, Vector3 maxValue)
         {
             value.x = value.x.Loop(minValue.x, maxValue.x);
@@ -58,13 +58,13 @@ namespace App.Code
             return value;
         }
 
-        public static Vector3 To3D(this Vector2 vector) => 
+        public static Vector3 To3D(this Vector2 vector) =>
             new(vector.x, 0, vector.y);
-        
-        public static Vector2 To2D(this Vector3 vector) => 
+
+        public static Vector2 To2D(this Vector3 vector) =>
             new(vector.x, vector.z);
 
-        public static float ToRadians(this float degrees) => 
+        public static float ToRadians(this float degrees) =>
             degrees * (Mathf.PI / 180.0f);
 
         public static bool InRange(this float value, Vector2 delta) =>
@@ -83,5 +83,13 @@ namespace App.Code
 
         public static float Abs(this float value) =>
             Mathf.Abs(value);
+
+        public static bool OutOf(this Vector3 value, Vector3 bounds, float delta)
+        {
+            bounds += Vector3.one * delta;
+            return value.x > bounds.x || value.x < -bounds.x ||
+                   value.y > bounds.y || value.y < -bounds.y ||
+                   value.z > bounds.z || value.z < -bounds.z;
+        }
     }
 }
