@@ -91,5 +91,16 @@ namespace App.Code
                    value.y > bounds.y || value.y < -bounds.y ||
                    value.z > bounds.z || value.z < -bounds.z;
         }
+
+        public static Vector3 MoveTowards(this Vector3 value, Vector3 target, float speed) =>
+            Vector3.MoveTowards(value, target, speed);
+        
+        public static Vector3 Random(this Vector3 value) =>
+            new()
+            {
+                x = UnityEngine.Random.Range(-value.x, value.x),
+                y = UnityEngine.Random.Range(-value.y, value.y),
+                z = UnityEngine.Random.Range(-value.z, value.z)
+            };
     }
 }

@@ -1,4 +1,4 @@
-﻿using App.Code.Adapters;
+﻿using App.Code.Components;
 using App.Code.Services;
 using App.Code.Systems;
 using App.ECS;
@@ -16,16 +16,18 @@ namespace App.Code.Core
 #endif
         public Camera MainCamera;
         public PrefabEntity Player;
-        public Bullet Bullet;
+        public PrefabEntity Bullet;
+        public PrefabEntity EnemySpawner;
 
         private World _mainWorld;
-        
+
         private IEntityFactory _entityFactory;
         private IScreenSizeService _screenSizeService;
         private ITimeService _timeService;
         private IInputService _inputService;
         private IWorldBoundsService _worldBoundsService;
         private IBulletFactory _bulletFactory;
+        private Entity _player;
 
         private void Awake() =>
             ConstructWorld();
@@ -60,8 +62,12 @@ namespace App.Code.Core
                 .AddService(_screenSizeService)
                 .AddService(_worldBoundsService);
 
-        private void SetupEntities() => 
-            _entityFactory.Create(Player);
+        private void SetupEntities()
+        {
+            _player = _entityFactory.Create(Player);
+            _entityFactory.Create(EnemySpawner)
+                .GetComponent<EnemySpawnerComponent>().PlayerPosition = _player.GetComponent<PositionComponent>();
+        }
 
         private void SetupSystems() =>
             _mainWorld
@@ -71,6 +77,8 @@ namespace App.Code.Core
                 .AddSystem(new ForwardSystem())
                 .AddSystem(new BulletShootSystem(_bulletFactory, _inputService))
                 .AddSystem(new InfinityAccelerateSystem(_timeService, _worldBoundsService))
+                .AddSystem(new FollowSystem(_timeService))
+                .AddSystem(new EnemySpawnerSystem(_timeService, _entityFactory, _worldBoundsService))
                 .AddSystem(new LinkPositionSystem())
                 .AddSystem(new LinkRotationSystem())
                 .AddSystem(new CollisionSystem())

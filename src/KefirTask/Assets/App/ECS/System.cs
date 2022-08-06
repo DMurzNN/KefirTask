@@ -6,7 +6,7 @@ namespace App.ECS
     {
         public abstract Type[] Filters { get; }
 
-        public void Execute(Entity[] entities)
+        public virtual void Execute(Entity[] entities)
         {
             foreach (var e in entities)
                 Execute(e);
