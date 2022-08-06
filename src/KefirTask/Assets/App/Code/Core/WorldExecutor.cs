@@ -1,8 +1,8 @@
 ﻿using App.Code.Adapters;
-using App.Code.Components;
 using App.Code.Services;
 using App.Code.Systems;
 using App.ECS;
+using App.ECS.Prefab;
 using App.ECS.Systems;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -15,12 +15,17 @@ namespace App.Code.Core
         [ShowInInspector] private World World => _mainWorld;
 #endif
         public Camera MainCamera;
-        public GameObject TestLink;
-        public CollisionAdapter TestAdapter;
+        public PrefabEntity Player;
         public Bullet Bullet;
 
         private World _mainWorld;
+        
         private IEntityFactory _entityFactory;
+        private IScreenSizeService _screenSizeService;
+        private ITimeService _timeService;
+        private IInputService _inputService;
+        private IWorldBoundsService _worldBoundsService;
+        private IBulletFactory _bulletFactory;
 
         private void Awake() =>
             ConstructWorld();
@@ -32,62 +37,43 @@ namespace App.Code.Core
         {
             _mainWorld = new World();
 
+            CreateServices();
+            SetupServices();
+            SetupEntities();
+            SetupSystems();
+        }
+
+        private void CreateServices()
+        {
             _entityFactory = new EntityFactory(_mainWorld);
+            _screenSizeService = new ScreenSizeService();
+            _timeService = new UnityTimeService();
+            _inputService = new UnityInputService();
+            _worldBoundsService = new WorldBoundsService(MainCamera, _screenSizeService);
+            _bulletFactory = new BulletFactory(Bullet, _entityFactory);
+        }
 
-            IScreenSizeService screenSizeService = new ScreenSizeService();
-            ITimeService timeService = new UnityTimeService();
-            IInputService inputService = new UnityInputService();
-            IWorldBoundsService worldBoundsService = new WorldBoundsService(MainCamera, screenSizeService);
-            IBulletFactory bulletFactory = new BulletFactory(Bullet, _entityFactory);
-
+        private void SetupServices() =>
             _mainWorld
-                .AddService(timeService)
-                .AddService(inputService)
-                .AddService(screenSizeService)
-                .AddService(worldBoundsService);
+                .AddService(_timeService)
+                .AddService(_inputService)
+                .AddService(_screenSizeService)
+                .AddService(_worldBoundsService);
 
-            _mainWorld
-                .AddEntity(new Entity("Log")
-                    .With<LogComponent>())
-                .AddEntity(new Entity("Ship")
-                    .With<AccelerationComponent>()
-                    .With<ForwardComponent>()
-                    .With<PositionComponent>()
-                    .With<SpeedComponent>()
-                    .With<RotateComponent>()
-                    .With<RotateSpeedComponent>()
-                    .With<RotateAccelerateComponent>()
-                    .With<BulletShootComponent>()
-                    .With(new CollisionComponent
-                    {
-                        CollisionAdapter = TestAdapter
-                    })
-                    .LinkWith(TestLink));
+        private void SetupEntities() => 
+            _entityFactory.Create(Player);
 
+        private void SetupSystems() =>
             _mainWorld
                 .AddSystem(new LogSystem())
-                .AddSystem(new MoveSystem(worldBoundsService, inputService, timeService))
-                .AddSystem(new RotateSystem(timeService, inputService))
+                .AddSystem(new MoveSystem(_worldBoundsService, _inputService, _timeService))
+                .AddSystem(new RotateSystem(_timeService, _inputService))
                 .AddSystem(new ForwardSystem())
-                .AddSystem(new BulletShootSystem(bulletFactory, inputService))
-                .AddSystem(new InfinityAccelerateSystem(timeService, worldBoundsService))
+                .AddSystem(new BulletShootSystem(_bulletFactory, _inputService))
+                .AddSystem(new InfinityAccelerateSystem(_timeService, _worldBoundsService))
                 .AddSystem(new LinkPositionSystem())
                 .AddSystem(new LinkRotationSystem())
                 .AddSystem(new CollisionSystem())
                 .AddSystem(new DestroySystem());
-        }
-
-#if UNITY_EDITOR
-        [Button(ButtonStyle.FoldoutButton), DisableInEditorMode]
-        private void AddMessage(string msg)
-        {
-            foreach (var e in _mainWorld.Entities)
-            {
-                var logComponent = e.GetComponent<LogComponent>();
-                if (logComponent != null)
-                    logComponent.Message = msg;
-            }
-        }
-#endif
     }
 }

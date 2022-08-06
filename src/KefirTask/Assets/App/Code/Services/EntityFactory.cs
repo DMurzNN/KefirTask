@@ -1,4 +1,6 @@
 ﻿using App.ECS;
+using App.ECS.Prefab;
+using Object = UnityEngine.Object;
 
 namespace App.Code.Services
 {
@@ -14,6 +16,17 @@ namespace App.Code.Services
             var e = new Entity(name);
             _world.AddEntity(e);
             return e;
+        }
+
+        public Entity Create(PrefabEntity prefabEntity)
+        {
+            var entityObject = Object.Instantiate(prefabEntity);
+            var entity = Create(entityObject.Name);
+            
+            foreach(var holder in entityObject.ComponentHolders) 
+                holder.ApplyToEntity(entity);
+            
+            return entity;
         }
     }
 }
