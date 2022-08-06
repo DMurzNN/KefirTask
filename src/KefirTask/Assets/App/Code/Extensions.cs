@@ -102,5 +102,8 @@ namespace App.Code
                 y = UnityEngine.Random.Range(-value.y, value.y),
                 z = UnityEngine.Random.Range(-value.z, value.z)
             };
+        
+        public static Vector3 Lerp(this Vector3 value, Vector3 target, float step) =>
+            Vector3.Lerp(value, target, step);
     }
 }

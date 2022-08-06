@@ -17,6 +17,7 @@ namespace App.Code.Core
         public Camera MainCamera;
         public PrefabEntity Player;
         public PrefabEntity Bullet;
+        public PrefabEntity Laser;
         public PrefabEntity EnemySpawner;
 
         private World _mainWorld;
@@ -27,6 +28,7 @@ namespace App.Code.Core
         private IInputService _inputService;
         private IWorldBoundsService _worldBoundsService;
         private IBulletFactory _bulletFactory;
+        private ILaserFactory _laserFactory;
         private Entity _player;
 
         private void Awake() =>
@@ -53,6 +55,7 @@ namespace App.Code.Core
             _inputService = new UnityInputService();
             _worldBoundsService = new WorldBoundsService(MainCamera, _screenSizeService);
             _bulletFactory = new BulletFactory(Bullet, _entityFactory);
+            _laserFactory = new LaserFactory(Laser, _entityFactory);
         }
 
         private void SetupServices() =>
@@ -76,6 +79,8 @@ namespace App.Code.Core
                 .AddSystem(new RotateSystem(_timeService, _inputService))
                 .AddSystem(new ForwardSystem())
                 .AddSystem(new BulletShootSystem(_bulletFactory, _inputService))
+                .AddSystem(new LaserShootSystem(_laserFactory, _inputService))
+                .AddSystem(new LaserRefillSystem(_timeService))
                 .AddSystem(new InfinityAccelerateSystem(_timeService, _worldBoundsService))
                 .AddSystem(new FollowSystem(_timeService))
                 .AddSystem(new EnemySpawnerSystem(_timeService, _entityFactory, _worldBoundsService))

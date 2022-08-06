@@ -333,6 +333,7 @@ MonoBehaviour:
   MainCamera: {fileID: 963194227}
   Player: {fileID: 5780909300744288994, guid: f75a81632e0e2de42bf3ea252a7ff289, type: 3}
   Bullet: {fileID: 7177988138016396683, guid: de271aac73f84e241ba914b861af0d08, type: 3}
+  Laser: {fileID: 197448511460790136, guid: 6675b594e07b0cd42912c7eac7ca8ea7, type: 3}
   EnemySpawner: {fileID: 5700690538358209621, guid: 238191ab80169d444a35a49a4aa23cef, type: 3}
 --- !u!4 &1009485130
 Transform:

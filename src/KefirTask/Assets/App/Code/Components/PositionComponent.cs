@@ -8,5 +8,6 @@ namespace App.Code.Components
     public class PositionComponent : Component
     {
         public Vector3 Position;
+        public Vector3 PrevPosition;
     }
 }

@@ -26,6 +26,7 @@ namespace App.Code.Systems
             var accelerate = entity.GetComponent<InfinityAccelerationComponent>();
             var forward = entity.GetComponent<ForwardComponent>();
 
+            position.PrevPosition = position.Position;
             accelerate.AccelerationDirection += forward.Forward * accelerate.Acceleration * _timeService.DeltaTime;
             position.Position += accelerate.AccelerationDirection;
 

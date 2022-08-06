@@ -6,6 +6,7 @@
         Player,
         Enemy,
         Asteroid,
-        Bullet
+        Bullet,
+        Laser
     }
 }

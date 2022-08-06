@@ -26,7 +26,7 @@ namespace App.Code.Systems
             var forward = entity.GetComponent<ForwardComponent>();
 
             if (_inputService.ShootBullet)
-                _bulletFactory.Create(position.Position, forward.Forward, bulletShoot.BulletAcceleration);
+                _bulletFactory.Create(position.Position, forward.Forward);
         }
     }
 }

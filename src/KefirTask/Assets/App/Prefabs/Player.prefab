@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 5780909300744288992}
   - component: {fileID: 8428417207918293952}
   - component: {fileID: 5044320575904278082}
+  - component: {fileID: 5279054285419127518}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -236,6 +237,7 @@ MonoBehaviour:
   - {fileID: 5780909300744288992}
   - {fileID: 8428417207918293952}
   - {fileID: 5044320575904278082}
+  - {fileID: 5279054285419127518}
 --- !u!114 &5780909300744288793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,3 +399,18 @@ MonoBehaviour:
   Component:
     Center: {x: 0, y: 0, z: 0.15}
     Radius: 0.78
+--- !u!114 &5279054285419127518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5780909300744288997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa6b7df833a4ba9ad3d6204badd651e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Component:
+    LaserCount: 5
+    LaserRefillTime: 5

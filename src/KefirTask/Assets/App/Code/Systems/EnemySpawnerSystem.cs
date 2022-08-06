@@ -34,7 +34,8 @@ namespace App.Code.Systems
                     .With(c => c.TargetPosition = enemySpawner.PlayerPosition);
                 enemy
                     .GetComponent<PositionComponent>()
-                    .With(p => p.Position = _worldBoundsService.WorldBounds.To3D().Random());
+                    .With(p => p.Position = _worldBoundsService.WorldBounds.To3D().Random())
+                    .With(p => p.PrevPosition = p.Position);
             }
             else
                 enemySpawner.SpawnCooldown -= _timeService.DeltaTime;

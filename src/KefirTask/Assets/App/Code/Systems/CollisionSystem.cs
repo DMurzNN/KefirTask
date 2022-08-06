@@ -9,6 +9,9 @@ namespace App.Code.Systems
 {
     public class CollisionSystem : ECS.System
     {
+        private const bool InterpolateCollision = true;
+        private const float InterpolateStep = 0.1f;
+
         public override Type[] Filters => new[]
             {typeof(PositionComponent), typeof(SphereColliderComponent), typeof(TagComponent)};
 
@@ -55,16 +58,39 @@ namespace App.Code.Systems
         private bool Collide(PositionComponent positionA, SphereColliderComponent colliderA,
             PositionComponent positionB, SphereColliderComponent colliderB)
         {
-            var dist = Vector3.Distance(colliderA.Center + positionA.Position, colliderB.Center + positionB.Position);
-            return dist <= colliderA.Radius + colliderB.Radius;
+            var colliderRadius = colliderA.Radius + colliderB.Radius;
+            var isCollide = CheckCollision(colliderA.Center + positionA.Position, colliderB.Center + positionB.Position,
+                colliderRadius);
+            
+            if (!isCollide && InterpolateCollision)
+            {
+                var lerpValue = InterpolateStep;
+                while (lerpValue < 1.0f && !isCollide)
+                {
+                    var positionALerp = positionA.PrevPosition.Lerp(positionA.Position, lerpValue);
+                    var positionBLerp = positionB.PrevPosition.Lerp(positionB.Position, lerpValue);
+                    
+                    isCollide = CheckCollision(colliderA.Center + positionALerp, colliderB.Center + positionBLerp,
+                        colliderRadius);
+                    
+                    lerpValue += InterpolateStep;
+                }
+            }
+
+            return isCollide;
         }
 
         private static bool IsEnemyDamaged(Tag tagA, Tag tagB) =>
             (tagA == Tag.Bullet && tagB == Tag.Enemy) ||
-            (tagB == Tag.Bullet && tagA == Tag.Enemy);
+            (tagB == Tag.Bullet && tagA == Tag.Enemy) ||
+            (tagB == Tag.Laser && tagA == Tag.Enemy) ||
+            (tagA == Tag.Laser && tagB == Tag.Enemy);
 
         private static bool IsPlayerDamaged(Tag tagA, Tag tagB) =>
             (tagA == Tag.Player && tagB == Tag.Enemy) ||
             (tagB == Tag.Player && tagA == Tag.Enemy);
+
+        private static bool CheckCollision(Vector3 colliderA, Vector3 colliderB, float radius) =>
+            Vector3.Distance(colliderA, colliderB) <= radius;
     }
 }
