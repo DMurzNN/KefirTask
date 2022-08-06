@@ -6,6 +6,7 @@ using App.ECS.Prefab;
 using App.ECS.Systems;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using System = App.ECS.System;
 
 namespace App.Code.Core
 {
@@ -19,6 +20,7 @@ namespace App.Code.Core
         public PrefabEntity Bullet;
         public PrefabEntity Laser;
         public PrefabEntity EnemySpawner;
+        public PrefabEntity AsteroidSpawner;
 
         private World _mainWorld;
 
@@ -68,6 +70,7 @@ namespace App.Code.Core
         private void SetupEntities()
         {
             _player = _entityFactory.Create(Player);
+            _entityFactory.Create(AsteroidSpawner);
             _entityFactory.Create(EnemySpawner)
                 .GetComponent<EnemySpawnerComponent>().PlayerPosition = _player.GetComponent<PositionComponent>();
         }
@@ -84,6 +87,7 @@ namespace App.Code.Core
                 .AddSystem(new InfinityAccelerateSystem(_timeService, _worldBoundsService))
                 .AddSystem(new FollowSystem(_timeService))
                 .AddSystem(new EnemySpawnerSystem(_timeService, _entityFactory, _worldBoundsService))
+                .AddSystem(new AsteroidSpawnerSystem(_timeService, _entityFactory, _worldBoundsService))
                 .AddSystem(new LinkPositionSystem())
                 .AddSystem(new LinkRotationSystem())
                 .AddSystem(new CollisionSystem())

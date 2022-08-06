@@ -20,10 +20,7 @@ namespace App.Code.Services
                 .With(c => c.Position = position);
             entity
                 .GetComponent<InfinityAccelerationComponent>()
-                .With(c => c.AccelerationDirection = direction / 1000.0f);
-            entity
-                .GetComponent<ForwardComponent>()
-                .With(c => c.Forward = direction);
+                .With(c => c.AccelerationDirection = direction * c.Acceleration);
             return entity;
         }
     }

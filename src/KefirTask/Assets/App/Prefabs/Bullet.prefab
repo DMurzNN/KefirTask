@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Component:
-    Acceleration: 1
+    Acceleration: 0.1
     AccelerationDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &7529504263415663324
 GameObject:

@@ -105,5 +105,8 @@ namespace App.Code
         
         public static Vector3 Lerp(this Vector3 value, Vector3 target, float step) =>
             Vector3.Lerp(value, target, step);
+
+        public static Vector2 RandomDirection(this Vector2 value) =>
+            new Vector2(UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f)).normalized;
     }
 }

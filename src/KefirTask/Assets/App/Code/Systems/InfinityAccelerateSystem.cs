@@ -12,7 +12,7 @@ namespace App.Code.Systems
         private readonly IWorldBoundsService _worldBoundsService;
 
         public override Type[] Filters => new[]
-            {typeof(PositionComponent), typeof(InfinityAccelerationComponent), typeof(ForwardComponent)};
+            {typeof(PositionComponent), typeof(InfinityAccelerationComponent)};
 
         public InfinityAccelerateSystem(ITimeService timeService, IWorldBoundsService worldBoundsService)
         {
@@ -24,10 +24,10 @@ namespace App.Code.Systems
         {
             var position = entity.GetComponent<PositionComponent>();
             var accelerate = entity.GetComponent<InfinityAccelerationComponent>();
-            var forward = entity.GetComponent<ForwardComponent>();
 
             position.PrevPosition = position.Position;
-            accelerate.AccelerationDirection += forward.Forward * accelerate.Acceleration * _timeService.DeltaTime;
+            accelerate.AccelerationDirection +=
+                accelerate.AccelerationDirection * accelerate.Acceleration * _timeService.DeltaTime;
             position.Position += accelerate.AccelerationDirection;
 
             if (position.Position.OutOf(_worldBoundsService.WorldBounds, 10.0f))

@@ -46,6 +46,26 @@ namespace App.Code.Systems
                             else if (tagB.Tag == Tag.Player)
                                 entities[j].AddComponent<DestroyComponent>();
                         }
+
+                        if (IsAsteroidDamagedByLaser(tagA.Tag, tagB.Tag))
+                        {
+                            entities[j].AddComponent<DestroyComponent>();
+                            entities[i].AddComponent<DestroyComponent>();
+                        }
+
+                        if (IsAsteroidDamagedByBullet(tagA.Tag, tagB.Tag))
+                        {
+                            if (tagA.Tag == Tag.Asteroid)
+                            {
+                                entities[i].AddComponent<CrashComponent>();
+                                entities[j].AddComponent<DestroyComponent>();
+                            }
+                            else
+                            {
+                                entities[i].AddComponent<DestroyComponent>();
+                                entities[j].AddComponent<CrashComponent>();
+                            }
+                        }
                     }
                 }
             }
@@ -61,7 +81,7 @@ namespace App.Code.Systems
             var colliderRadius = colliderA.Radius + colliderB.Radius;
             var isCollide = CheckCollision(colliderA.Center + positionA.Position, colliderB.Center + positionB.Position,
                 colliderRadius);
-            
+
             if (!isCollide && InterpolateCollision)
             {
                 var lerpValue = InterpolateStep;
@@ -69,16 +89,24 @@ namespace App.Code.Systems
                 {
                     var positionALerp = positionA.PrevPosition.Lerp(positionA.Position, lerpValue);
                     var positionBLerp = positionB.PrevPosition.Lerp(positionB.Position, lerpValue);
-                    
+
                     isCollide = CheckCollision(colliderA.Center + positionALerp, colliderB.Center + positionBLerp,
                         colliderRadius);
-                    
+
                     lerpValue += InterpolateStep;
                 }
             }
 
             return isCollide;
         }
+
+        private static bool IsAsteroidDamagedByLaser(Tag tagA, Tag tagB) =>
+            (tagB == Tag.Laser && tagA == Tag.Asteroid) ||
+            (tagA == Tag.Laser && tagB == Tag.Asteroid);
+
+        private static bool IsAsteroidDamagedByBullet(Tag tagA, Tag tagB) =>
+            (tagB == Tag.Bullet && tagA == Tag.Asteroid) ||
+            (tagA == Tag.Bullet && tagB == Tag.Asteroid);
 
         private static bool IsEnemyDamaged(Tag tagA, Tag tagB) =>
             (tagA == Tag.Bullet && tagB == Tag.Enemy) ||
@@ -88,7 +116,9 @@ namespace App.Code.Systems
 
         private static bool IsPlayerDamaged(Tag tagA, Tag tagB) =>
             (tagA == Tag.Player && tagB == Tag.Enemy) ||
-            (tagB == Tag.Player && tagA == Tag.Enemy);
+            (tagB == Tag.Player && tagA == Tag.Enemy) ||
+            (tagA == Tag.Player && tagB == Tag.Asteroid) ||
+            (tagB == Tag.Player && tagA == Tag.Asteroid);
 
         private static bool CheckCollision(Vector3 colliderA, Vector3 colliderB, float radius) =>
             Vector3.Distance(colliderA, colliderB) <= radius;
