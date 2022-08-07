@@ -90,17 +90,19 @@ namespace App.Code.Systems.Physics
             (tagB == Tag.Bullet && tagA == Tag.Asteroid) ||
             (tagA == Tag.Bullet && tagB == Tag.Asteroid);
 
-        public static bool IsEnemyDamaged(Tag tagA, Tag tagB) =>
-            (tagA == Tag.Bullet && tagB == Tag.Enemy) ||
-            (tagB == Tag.Bullet && tagA == Tag.Enemy) ||
-            (tagB == Tag.Laser && tagA == Tag.Enemy) ||
-            (tagA == Tag.Laser && tagB == Tag.Enemy);
-
         public static bool IsPlayerDamaged(Tag tagA, Tag tagB) =>
             (tagA == Tag.Player && tagB == Tag.Enemy) ||
             (tagB == Tag.Player && tagA == Tag.Enemy) ||
             (tagA == Tag.Player && tagB == Tag.Asteroid) ||
             (tagB == Tag.Player && tagA == Tag.Asteroid);
+
+        public static bool IsEnemyDamagedByBullet(Tag tagA, Tag tagB) =>
+            (tagA == Tag.Bullet && tagB == Tag.Enemy) ||
+            (tagB == Tag.Bullet && tagA == Tag.Enemy);
+
+        public static bool IsEnemyDamagedByLaser(Tag tagA, Tag tagB) =>
+            (tagB == Tag.Laser && tagA == Tag.Enemy) ||
+            (tagA == Tag.Laser && tagB == Tag.Enemy);
 
         private static bool IsCollideSpheres(PositionComponent positionA, SphereColliderComponent colliderA,
             PositionComponent positionB, SphereColliderComponent colliderB)

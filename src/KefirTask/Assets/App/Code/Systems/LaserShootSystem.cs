@@ -28,7 +28,7 @@ namespace App.Code.Systems
             if (!_inputService.ShootLaser || laserShoot.LaserCount <= 0) return;
 
             laserShoot.LaserCount--;
-            _laserFactory.Create(position.Position, forward.Forward);
+            _laserFactory.Create(position.Position, forward.Forward, entity);
         }
     }
 }

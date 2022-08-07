@@ -1,4 +1,5 @@
-﻿using App.ECS;
+﻿using App.Code.Components;
+using App.ECS;
 using App.ECS.Prefab;
 using Object = UnityEngine.Object;
 
@@ -18,14 +19,19 @@ namespace App.Code.Services
             return e;
         }
 
-        public Entity Create(PrefabEntity prefabEntity)
+        public Entity Create(PrefabEntity prefabEntity, Entity parent = null)
         {
             var entityObject = Object.Instantiate(prefabEntity);
             var entity = Create(entityObject.Name);
-            
-            foreach(var holder in entityObject.ComponentHolders) 
+
+            foreach (var holder in entityObject.ComponentHolders)
                 holder.ApplyToEntity(entity);
-            
+
+            entity.With(e => e.AddComponent(new LinkToParentComponent
+            {
+                Parent = parent
+            }), parent != null);
+
             return entity;
         }
     }

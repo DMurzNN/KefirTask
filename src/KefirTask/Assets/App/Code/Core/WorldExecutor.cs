@@ -6,7 +6,6 @@ using App.ECS.Prefab;
 using App.ECS.Systems;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using System = App.ECS.System;
 
 namespace App.Code.Core
 {
@@ -90,6 +89,10 @@ namespace App.Code.Core
                 .AddSystem(new AsteroidSpawnerSystem(_timeService, _entityFactory, _worldBoundsService))
                 .AddSystem(new LinkPositionSystem())
                 .AddSystem(new LinkRotationSystem())
+                .AddSystem(new LookAtForwardSystem())
+                .AddSystem(new LifetimeSystem(_timeService))
+                .AddSystem(new LinkToParentSystem())
+                .AddSystem(new UpdateCapsuleColliderSystem())
                 .AddSystem(new CollisionSystem())
                 .AddSystem(new DestroySystem());
     }

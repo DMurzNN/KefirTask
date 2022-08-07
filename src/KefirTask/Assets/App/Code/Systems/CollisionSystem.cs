@@ -30,10 +30,18 @@ namespace App.Code.Systems
 
                     if (Helper.Collide(positionA, colliderA, positionB, colliderB))
                     {
-                        if (Helper.IsEnemyDamaged(tagA.Tag, tagB.Tag))
+                        if (Helper.IsEnemyDamagedByBullet(tagA.Tag, tagB.Tag))
                         {
                             entities[j].AddComponent<DestroyComponent>();
                             entities[i].AddComponent<DestroyComponent>();
+                        }
+
+                        if (Helper.IsEnemyDamagedByLaser(tagA.Tag, tagB.Tag))
+                        {
+                            if (tagA.Tag == Tag.Enemy)
+                                entities[i].AddComponent<DestroyComponent>();
+                            else if (tagB.Tag == Tag.Enemy)
+                                entities[j].AddComponent<DestroyComponent>();
                         }
 
                         if (Helper.IsPlayerDamaged(tagA.Tag, tagB.Tag))
@@ -46,8 +54,10 @@ namespace App.Code.Systems
 
                         if (Helper.IsAsteroidDamagedByLaser(tagA.Tag, tagB.Tag))
                         {
-                            entities[j].AddComponent<DestroyComponent>();
-                            entities[i].AddComponent<DestroyComponent>();
+                            if (tagA.Tag == Tag.Asteroid)
+                                entities[i].AddComponent<DestroyComponent>();
+                            else if (tagB.Tag == Tag.Asteroid)
+                                entities[j].AddComponent<DestroyComponent>();
                         }
 
                         if (Helper.IsAsteroidDamagedByBullet(tagA.Tag, tagB.Tag))
