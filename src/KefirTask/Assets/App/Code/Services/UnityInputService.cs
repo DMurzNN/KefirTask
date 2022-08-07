@@ -29,5 +29,9 @@ namespace App.Code.Services
             ShootBullet = Input.GetMouseButtonDown(0);
             ShootLaser = Input.GetMouseButtonDown(1);
         }
+
+        public void Reset()
+        {
+        }
     }
 }

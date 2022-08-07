@@ -1,4 +1,5 @@
 ﻿using App.Code.Components;
+using App.Code.Core.UI;
 using App.Code.Services;
 using App.Code.Systems;
 using App.ECS;
@@ -15,6 +16,7 @@ namespace App.Code.Core
         [ShowInInspector] private World World => _mainWorld;
 #endif
         public Camera MainCamera;
+        public Mediator Mediator;
         public PrefabEntity Player;
         public PrefabEntity Bullet;
         public PrefabEntity Laser;
@@ -31,13 +33,24 @@ namespace App.Code.Core
         private IBulletFactory _bulletFactory;
         private ILaserFactory _laserFactory;
         private PieceFactory _pieceFactory;
+        private ScoreService _scoreService;
         private Entity _player;
 
-        private void Awake() =>
+        private void Awake()
+        {
+            Mediator.Restart();
             ConstructWorld();
+        }
 
         private void Update() =>
             _mainWorld.Run();
+
+        [Button(ButtonStyle.FoldoutButton), DisableInEditorMode]
+        public void Restart()
+        {
+            _mainWorld.ClearWorld();
+            SetupEntities();
+        }
 
         private void ConstructWorld()
         {
@@ -59,6 +72,7 @@ namespace App.Code.Core
             _bulletFactory = new BulletFactory(Bullet, _entityFactory);
             _laserFactory = new LaserFactory(Laser, _entityFactory);
             _pieceFactory = new PieceFactory(_entityFactory);
+            _scoreService = new ScoreService(Mediator);
         }
 
         private void SetupServices() =>
@@ -74,6 +88,8 @@ namespace App.Code.Core
             _entityFactory.Create(AsteroidSpawner);
             _entityFactory.Create(EnemySpawner)
                 .GetComponent<EnemySpawnerComponent>().PlayerPosition = _player.GetComponent<PositionComponent>();
+            
+            _scoreService.RegisterPlayer(_player.GetComponent<ScoreComponent>());
         }
 
         private void SetupSystems() =>
@@ -97,6 +113,7 @@ namespace App.Code.Core
                 .AddSystem(new UpdateCapsuleColliderSystem())
                 .AddSystem(new CollisionSystem())
                 .AddSystem(new CrashSystem(_pieceFactory))
+                .AddSystem(new DestroyByPlayerSystem(_scoreService))
                 .AddSystem(new DestroySystem());
     }
 }

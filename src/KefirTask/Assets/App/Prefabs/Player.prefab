@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3a6c60905e8cfc84abb79ee14ce0f6f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -145,7 +145,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3a6c60905e8cfc84abb79ee14ce0f6f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 8428417207918293952}
   - component: {fileID: 5044320575904278082}
   - component: {fileID: 5279054285419127518}
+  - component: {fileID: 1675887574150709282}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -238,6 +239,7 @@ MonoBehaviour:
   - {fileID: 8428417207918293952}
   - {fileID: 5044320575904278082}
   - {fileID: 5279054285419127518}
+  - {fileID: 1675887574150709282}
 --- !u!114 &5780909300744288793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,7 +269,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Component:
-    BulletAcceleration: 0.5
     BulletCount: 0
     ShootTime: 0
 --- !u!114 &5780909300744288794
@@ -312,6 +313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Component:
     Position: {x: 0, y: 0, z: 0}
+    PrevPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &5780909300744288799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,3 +416,18 @@ MonoBehaviour:
   Component:
     LaserCount: 5
     LaserRefillTime: 5
+    RefillTimer: 0
+--- !u!114 &1675887574150709282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5780909300744288997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cfad2b0db4743bbadb9aaa6e7b69bda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Component:
+    Score: 0

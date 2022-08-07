@@ -11,6 +11,7 @@ namespace App.ECS.Systems
         {
             if (entity.HasComponent<LinkComponent>())
                 UnityEngine.Object.Destroy(entity.GetComponent<LinkComponent>().LinkWith);
+            
             entity.GetComponent<DestroyComponent>().Destroyed = true;
         }
     }

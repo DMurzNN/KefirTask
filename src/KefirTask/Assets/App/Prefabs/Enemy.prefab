@@ -71,6 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Component:
     Position: {x: 0, y: 0, z: 0}
+    PrevPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &8907091100718791963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,6 +88,7 @@ MonoBehaviour:
     Speed: 1
     TargetPosition:
       Position: {x: 0, y: 0, z: 0}
+      PrevPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &744294937041790659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,7 +193,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 76dba99724f896c40a9fdda05e2c195e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

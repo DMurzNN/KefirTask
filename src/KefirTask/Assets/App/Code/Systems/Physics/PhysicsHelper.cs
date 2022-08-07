@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace App.Code.Systems.Physics
 {
-    public static class Helper
+    public static class PhysicsHelper
     {
         public const bool InterpolateCollision = true;
         public const float InterpolateStep = 0.1f;

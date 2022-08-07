@@ -9,18 +9,13 @@ namespace App.Code.Services
             get
             {
                 if (_currentSize == Vector2.zero)
-                    CurrentSize = new Vector2(Screen.width, Screen.height);
+                    CurrentSize = CurrentScreenSize();
                 return _currentSize;
             }
             private set => _currentSize = value;
         }
 
         private Vector2 _currentSize;
-
-        public float ScreenRatio() =>
-            CurrentSize.x > CurrentSize.y
-                ? CurrentSize.x / CurrentSize.y
-                : CurrentSize.y / CurrentSize.x;
 
         private static Vector2 CurrentScreenSize() =>
             new(Screen.width, Screen.height);
@@ -34,6 +29,10 @@ namespace App.Code.Services
             var currentInverseScreenSize = InverseCurrentScreenSize();
             if (currentScreenSize != CurrentSize && currentScreenSize != currentInverseScreenSize)
                 CurrentSize = currentScreenSize;
+        }
+
+        public void Reset()
+        {
         }
     }
 }

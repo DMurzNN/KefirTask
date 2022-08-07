@@ -65,6 +65,18 @@ namespace App.ECS
             entity.AddComponent<DestroyComponent>();
         }
 
+        public void ClearWorld()
+        {
+            foreach (var e in _entities)
+                if (e.HasComponent<LinkComponent>())
+                    UnityEngine.Object.Destroy(e.GetComponent<LinkComponent>().LinkWith);
+
+            foreach (var s in _services)
+                s.Reset();
+
+            _entities.Clear();
+        }
+
         private void ExecuteSystem(System system)
         {
             var filteredEntities = EntitiesForFilter(system.Filters);

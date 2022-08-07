@@ -12,5 +12,9 @@ namespace App.Code.Services
             PrevDeltaTime = DeltaTime;
             DeltaTime = Time.deltaTime;
         }
+
+        public void Reset()
+        {
+        }
     }
 }
