@@ -32,7 +32,7 @@ namespace App.Code.Systems
                     .Create(enemySpawner.EntityPrefab);
                 enemy
                     .GetComponent<PositionComponent>()
-                    .With(p => p.Position = _worldBoundsService.WorldBounds.To3D().Random())
+                    .With(p => p.Position = _worldBoundsService.RandomPosition())
                     .With(p => p.PrevPosition = p.Position);
                 enemy
                     .GetComponent<InfinityAccelerationComponent>()

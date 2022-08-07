@@ -122,5 +122,12 @@ namespace App.Code
             var num = Mathf.Clamp(Vector3.Dot(lhs, rhs), 0.0f, magnitude);
             return lineStart + lhs * num;
         }
+        
+        public static Vector2 Random(this Vector2 value) =>
+            new()
+            {
+                x = UnityEngine.Random.Range(-value.x, value.x),
+                y = UnityEngine.Random.Range(-value.y, value.y)
+            };
     }
 }

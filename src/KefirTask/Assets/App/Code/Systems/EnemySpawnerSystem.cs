@@ -7,13 +7,15 @@ namespace App.Code.Systems
 {
     public class EnemySpawnerSystem : ECS.System
     {
+
         private readonly ITimeService _timeService;
         private readonly IEntityFactory _entityFactory;
         private readonly IWorldBoundsService _worldBoundsService;
 
         public override Type[] Filters => new[] {typeof(EnemySpawnerComponent)};
 
-        public EnemySpawnerSystem(ITimeService timeService, IEntityFactory entityFactory, IWorldBoundsService worldBoundsService)
+        public EnemySpawnerSystem(ITimeService timeService, IEntityFactory entityFactory,
+            IWorldBoundsService worldBoundsService)
         {
             _timeService = timeService;
             _entityFactory = entityFactory;
@@ -34,7 +36,7 @@ namespace App.Code.Systems
                     .With(c => c.TargetPosition = enemySpawner.PlayerPosition);
                 enemy
                     .GetComponent<PositionComponent>()
-                    .With(p => p.Position = _worldBoundsService.WorldBounds.To3D().Random())
+                    .With(p => p.Position = _worldBoundsService.RandomPosition())
                     .With(p => p.PrevPosition = p.Position);
             }
             else
