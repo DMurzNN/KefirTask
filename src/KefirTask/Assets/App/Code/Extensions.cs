@@ -94,7 +94,7 @@ namespace App.Code
 
         public static Vector3 MoveTowards(this Vector3 value, Vector3 target, float speed) =>
             Vector3.MoveTowards(value, target, speed);
-        
+
         public static Vector3 Random(this Vector3 value) =>
             new()
             {
@@ -102,11 +102,26 @@ namespace App.Code
                 y = UnityEngine.Random.Range(-value.y, value.y),
                 z = UnityEngine.Random.Range(-value.z, value.z)
             };
-        
+
         public static Vector3 Lerp(this Vector3 value, Vector3 target, float step) =>
             Vector3.Lerp(value, target, step);
 
         public static Vector2 RandomDirection(this Vector2 value) =>
             new Vector2(UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f)).normalized;
+
+        public static float DistanceToLine(this Vector3 point, Vector3 lineStart, Vector3 lineEnd) =>
+            Vector3.Magnitude(point.ProjectPointLine(lineStart, lineEnd) - point);
+
+        public static Vector3 ProjectPointLine(this Vector3 point, Vector3 lineStart, Vector3 lineEnd)
+        {
+            var rhs = point - lineStart;
+            var vector3 = lineEnd - lineStart;
+            var magnitude = vector3.magnitude;
+            var lhs = vector3;
+            if (magnitude > 9.999999974752427E-07)
+                lhs /= magnitude;
+            var num = Mathf.Clamp(Vector3.Dot(lhs, rhs), 0.0f, magnitude);
+            return lineStart + lhs * num;
+        }
     }
 }

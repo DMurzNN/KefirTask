@@ -57,7 +57,7 @@ namespace App.ECS
 
             var componentCount = 0;
             foreach (var component in _components)
-                if (components.Contains(component.Value.GetType()))
+                if (components.Contains(component.Key))
                     componentCount++;
 
             return componentCount == components.Length;

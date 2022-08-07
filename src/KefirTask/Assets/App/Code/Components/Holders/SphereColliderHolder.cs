@@ -1,9 +1,8 @@
-﻿using App.ECS.Prefab;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace App.Code.Components.Holders
 {
-    public class SphereColliderHolder : ComponentHolder<SphereColliderComponent>
+    public class SphereColliderHolder : ColliderHolder<SphereColliderComponent>
     {
         private void OnDrawGizmos()
         {
