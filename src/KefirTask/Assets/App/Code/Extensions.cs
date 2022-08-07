@@ -1,5 +1,4 @@
 ﻿using System;
-using App.Code.Components;
 using App.ECS;
 using App.ECS.Components;
 using UnityEngine;
@@ -107,7 +106,7 @@ namespace App.Code
             Vector3.Lerp(value, target, step);
 
         public static Vector2 RandomDirection(this Vector2 value) =>
-            new Vector2(UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f)).normalized;
+            new Vector2(UnityEngine.Random.Range(-1.0f, 1.0f), UnityEngine.Random.Range(-1.0f, 1.0f)).normalized;
 
         public static float DistanceToLine(this Vector3 point, Vector3 lineStart, Vector3 lineEnd) =>
             Vector3.Magnitude(point.ProjectPointLine(lineStart, lineEnd) - point);

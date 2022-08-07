@@ -7,6 +7,7 @@
         Enemy,
         Asteroid,
         Bullet,
-        Laser
+        Laser,
+        AsteroidPiece
     }
 }

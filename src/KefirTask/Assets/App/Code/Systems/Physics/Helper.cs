@@ -89,12 +89,22 @@ namespace App.Code.Systems.Physics
         public static bool IsAsteroidDamagedByBullet(Tag tagA, Tag tagB) =>
             (tagB == Tag.Bullet && tagA == Tag.Asteroid) ||
             (tagA == Tag.Bullet && tagB == Tag.Asteroid);
+        
+        public static bool IsAsteroidPieceDamagedByBullet(Tag tagA, Tag tagB) =>
+            (tagB == Tag.Bullet && tagA == Tag.AsteroidPiece) ||
+            (tagA == Tag.Bullet && tagB == Tag.AsteroidPiece);
+        
+        public static bool IsAsteroidPieceDamagedByLaser(Tag tagA, Tag tagB) =>
+            (tagB == Tag.Laser && tagA == Tag.AsteroidPiece) ||
+            (tagA == Tag.Laser && tagB == Tag.AsteroidPiece);
 
         public static bool IsPlayerDamaged(Tag tagA, Tag tagB) =>
             (tagA == Tag.Player && tagB == Tag.Enemy) ||
             (tagB == Tag.Player && tagA == Tag.Enemy) ||
             (tagA == Tag.Player && tagB == Tag.Asteroid) ||
-            (tagB == Tag.Player && tagA == Tag.Asteroid);
+            (tagB == Tag.Player && tagA == Tag.Asteroid) ||
+            (tagA == Tag.Player && tagB == Tag.AsteroidPiece) ||
+            (tagB == Tag.Player && tagA == Tag.AsteroidPiece);
 
         public static bool IsEnemyDamagedByBullet(Tag tagA, Tag tagB) =>
             (tagA == Tag.Bullet && tagB == Tag.Enemy) ||

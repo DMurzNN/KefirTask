@@ -30,6 +30,7 @@ namespace App.Code.Core
         private IWorldBoundsService _worldBoundsService;
         private IBulletFactory _bulletFactory;
         private ILaserFactory _laserFactory;
+        private PieceFactory _pieceFactory;
         private Entity _player;
 
         private void Awake() =>
@@ -57,6 +58,7 @@ namespace App.Code.Core
             _worldBoundsService = new WorldBoundsService(MainCamera, _screenSizeService);
             _bulletFactory = new BulletFactory(Bullet, _entityFactory);
             _laserFactory = new LaserFactory(Laser, _entityFactory);
+            _pieceFactory = new PieceFactory(_entityFactory);
         }
 
         private void SetupServices() =>
@@ -94,6 +96,7 @@ namespace App.Code.Core
                 .AddSystem(new LinkToParentSystem())
                 .AddSystem(new UpdateCapsuleColliderSystem())
                 .AddSystem(new CollisionSystem())
+                .AddSystem(new CrashSystem(_pieceFactory))
                 .AddSystem(new DestroySystem());
     }
 }

@@ -35,32 +35,28 @@ namespace App.Code.Systems
                             entities[j].AddComponent<DestroyComponent>();
                             entities[i].AddComponent<DestroyComponent>();
                         }
-
-                        if (Helper.IsEnemyDamagedByLaser(tagA.Tag, tagB.Tag))
+                        else if (Helper.IsEnemyDamagedByLaser(tagA.Tag, tagB.Tag))
                         {
                             if (tagA.Tag == Tag.Enemy)
                                 entities[i].AddComponent<DestroyComponent>();
                             else if (tagB.Tag == Tag.Enemy)
                                 entities[j].AddComponent<DestroyComponent>();
                         }
-
-                        if (Helper.IsPlayerDamaged(tagA.Tag, tagB.Tag))
+                        else if (Helper.IsPlayerDamaged(tagA.Tag, tagB.Tag))
                         {
                             if (tagA.Tag == Tag.Player)
                                 entities[i].AddComponent<DestroyComponent>();
                             else if (tagB.Tag == Tag.Player)
                                 entities[j].AddComponent<DestroyComponent>();
                         }
-
-                        if (Helper.IsAsteroidDamagedByLaser(tagA.Tag, tagB.Tag))
+                        else if (Helper.IsAsteroidDamagedByLaser(tagA.Tag, tagB.Tag))
                         {
                             if (tagA.Tag == Tag.Asteroid)
                                 entities[i].AddComponent<DestroyComponent>();
                             else if (tagB.Tag == Tag.Asteroid)
                                 entities[j].AddComponent<DestroyComponent>();
                         }
-
-                        if (Helper.IsAsteroidDamagedByBullet(tagA.Tag, tagB.Tag))
+                        else if (Helper.IsAsteroidDamagedByBullet(tagA.Tag, tagB.Tag))
                         {
                             if (tagA.Tag == Tag.Asteroid)
                             {
@@ -72,6 +68,18 @@ namespace App.Code.Systems
                                 entities[i].AddComponent<DestroyComponent>();
                                 entities[j].AddComponent<CrashComponent>();
                             }
+                        }
+                        else if (Helper.IsAsteroidPieceDamagedByBullet(tagA.Tag, tagB.Tag))
+                        {
+                            entities[j].AddComponent<DestroyComponent>();
+                            entities[i].AddComponent<DestroyComponent>();
+                        }
+                        else if (Helper.IsAsteroidPieceDamagedByLaser(tagA.Tag, tagB.Tag))
+                        {
+                            if (tagA.Tag == Tag.AsteroidPiece)
+                                entities[i].AddComponent<DestroyComponent>();
+                            else if (tagB.Tag == Tag.AsteroidPiece)
+                                entities[j].AddComponent<DestroyComponent>();
                         }
                     }
                 }
