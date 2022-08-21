@@ -1,16 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sirenix.OdinInspector;
 
 namespace App.ECS
 {
     [Serializable]
     public class Entity
     {
-#if UNITY_EDITOR
-        [ShowInInspector] private Component[] Components => _components.Values.ToArray();
-#endif
         public string Name { get; private set; }
 
         private readonly Dictionary<Type, Component> _components;

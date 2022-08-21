@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using App.ECS.Components;
-using Sirenix.OdinInspector;
 
 namespace App.ECS
 {
     [Serializable]
     public class World
     {
-#if UNITY_EDITOR
-        [ShowInInspector] public Entity[] Entities => _entities.ToArray();
-#endif
-
         private readonly HashSet<System> _systems;
         private readonly HashSet<Entity> _entities;
         private readonly HashSet<IService> _services;

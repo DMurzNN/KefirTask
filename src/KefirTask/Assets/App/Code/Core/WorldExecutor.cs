@@ -5,16 +5,12 @@ using App.Code.Systems;
 using App.ECS;
 using App.ECS.Prefab;
 using App.ECS.Systems;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace App.Code.Core
 {
     public class WorldExecutor : MonoBehaviour
     {
-#if UNITY_EDITOR
-        [ShowInInspector] private World World => _mainWorld;
-#endif
         public Camera MainCamera;
         public Mediator Mediator;
         public InputService InputService;
@@ -45,8 +41,7 @@ namespace App.Code.Core
 
         private void Update() =>
             _mainWorld.Run();
-
-        [Button(ButtonStyle.FoldoutButton), DisableInEditorMode]
+        
         public void Restart()
         {
             _mainWorld.ClearWorld();
