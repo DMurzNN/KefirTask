@@ -10,7 +10,7 @@ namespace App.Code.Systems
         private readonly IBulletFactory _bulletFactory;
         private readonly IInputService _inputService;
 
-        public override Type[] Filters => new[]
+        public override Type[] Filters { get; } =
             {typeof(BulletShootComponent), typeof(PositionComponent), typeof(ForwardComponent)};
 
         public BulletShootSystem(IBulletFactory bulletFactory, IInputService inputService)

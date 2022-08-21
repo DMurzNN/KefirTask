@@ -10,7 +10,7 @@ namespace App.Code.Systems
     {
         private readonly IPieceFactory _pieceFactory;
 
-        public override Type[] Filters => new[]
+        public override Type[] Filters { get; } =
             {typeof(PositionComponent), typeof(CrashComponent), typeof(PieceComponent)};
 
         public CrashSystem(IPieceFactory pieceFactory) =>

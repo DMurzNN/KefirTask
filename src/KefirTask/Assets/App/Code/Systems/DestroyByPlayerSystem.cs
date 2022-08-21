@@ -9,12 +9,12 @@ namespace App.Code.Systems
     public class DestroyByPlayerSystem : ECS.System
     {
         private const int ScoreForKill = 1;
-        
+
         private readonly IScoreService _scoreService;
 
-        public override Type[] Filters => new[] {typeof(DestroyByPlayerComponent)};
+        public override Type[] Filters { get; } = {typeof(DestroyByPlayerComponent)};
 
-        public DestroyByPlayerSystem(IScoreService scoreService) => 
+        public DestroyByPlayerSystem(IScoreService scoreService) =>
             _scoreService = scoreService;
 
         protected override void Execute(Entity entity)

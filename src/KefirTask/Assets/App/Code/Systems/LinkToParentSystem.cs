@@ -6,7 +6,7 @@ namespace App.Code.Systems
 {
     public class LinkToParentSystem : ECS.System
     {
-        public override Type[] Filters => new[] {typeof(LinkToParentComponent)};
+        public override Type[] Filters { get; } = {typeof(LinkToParentComponent)};
 
         protected override void Execute(Entity entity)
         {

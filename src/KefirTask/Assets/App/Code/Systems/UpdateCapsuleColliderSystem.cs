@@ -7,7 +7,8 @@ namespace App.Code.Systems
 {
     public class UpdateCapsuleColliderSystem : ECS.System
     {
-        public override Type[] Filters => new[] {typeof(ColliderComponent), typeof(ForwardComponent)};
+        public override Type[] Filters { get; } =
+            {typeof(ColliderComponent), typeof(ForwardComponent)};
 
         protected override void Execute(Entity entity)
         {

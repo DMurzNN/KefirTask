@@ -10,7 +10,7 @@ namespace App.Code.Systems
         private readonly ITimeService _timeService;
         private readonly IInputService _inputService;
 
-        public override Type[] Filters => new[]
+        public override Type[] Filters { get; } =
             {typeof(RotateComponent), typeof(RotateAccelerateComponent), typeof(RotateSpeedComponent)};
 
         public RotateSystem(ITimeService timeService, IInputService inputService)
@@ -38,7 +38,7 @@ namespace App.Code.Systems
                 rotateAccelerate.Accelerate, _inputService.Horizontal != 0.0, rotateAccelerate.Decelerate);
             var newRotation = prevRotation + newDirection;
             var newSpeed = (newRotation - prevRotation).Abs() / _timeService.PrevDeltaTime;
-            
+
             rotateAccelerate.AccelerationDirection = newDirection;
             rotateSpeed.Speed = newSpeed;
             rotate.YAngle = newRotation;

@@ -9,7 +9,7 @@ namespace App.Code.Systems
     public class LifetimeSystem : ECS.System
     {
         private readonly ITimeService _timeService;
-        public override Type[] Filters => new[] {typeof(LifetimeComponent)};
+        public override Type[] Filters { get; } = {typeof(LifetimeComponent)};
 
         public LifetimeSystem(ITimeService timeService) =>
             _timeService = timeService;

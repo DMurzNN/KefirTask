@@ -12,9 +12,10 @@ namespace App.Code.Systems
         private readonly IEntityFactory _entityFactory;
         private readonly IWorldBoundsService _worldBoundsService;
 
-        public override Type[] Filters => new[] {typeof(AsteroidSpawnerComponent)};
+        public override Type[] Filters { get; } = {typeof(AsteroidSpawnerComponent)};
 
-        public AsteroidSpawnerSystem(ITimeService timeService, IEntityFactory entityFactory, IWorldBoundsService worldBoundsService)
+        public AsteroidSpawnerSystem(ITimeService timeService, IEntityFactory entityFactory,
+            IWorldBoundsService worldBoundsService)
         {
             _timeService = timeService;
             _entityFactory = entityFactory;

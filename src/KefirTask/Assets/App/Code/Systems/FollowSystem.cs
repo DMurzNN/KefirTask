@@ -9,9 +9,10 @@ namespace App.Code.Systems
     {
         private readonly ITimeService _timeService;
 
-        public override Type[] Filters => new[] {typeof(FollowComponent), typeof(PositionComponent)};
+        public override Type[] Filters { get; } =
+            {typeof(FollowComponent), typeof(PositionComponent)};
 
-        public FollowSystem(ITimeService timeService) => 
+        public FollowSystem(ITimeService timeService) =>
             _timeService = timeService;
 
         protected override void Execute(Entity entity)

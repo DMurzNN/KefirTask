@@ -10,7 +10,7 @@ namespace App.Code.Systems
         private readonly ILaserFactory _laserFactory;
         private readonly IInputService _inputService;
 
-        public override Type[] Filters => new[]
+        public override Type[] Filters { get; } =
             {typeof(LaserShootComponent), typeof(PositionComponent), typeof(ForwardComponent)};
 
         public LaserShootSystem(ILaserFactory laserFactory, IInputService inputService)

@@ -12,17 +12,17 @@ namespace App.Code.Systems
         private readonly IInputService _inputService;
         private readonly ITimeService _timeService;
 
+        public override Type[] Filters { get; } =
+        {
+            typeof(SpeedComponent), typeof(PositionComponent), typeof(ForwardComponent), typeof(AccelerationComponent)
+        };
+
         public MoveSystem(IWorldBoundsService worldBoundsService, IInputService inputService, ITimeService timeService)
         {
             _inputService = inputService;
             _timeService = timeService;
             _worldBoundsService = worldBoundsService;
         }
-
-        public override Type[] Filters => new[]
-        {
-            typeof(SpeedComponent), typeof(PositionComponent), typeof(ForwardComponent), typeof(AccelerationComponent)
-        };
 
         protected override void Execute(Entity entity)
         {

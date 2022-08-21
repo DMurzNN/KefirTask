@@ -7,7 +7,7 @@ namespace App.Code.Systems
 {
     public class CollisionSystem : ECS.System
     {
-        public override Type[] Filters => new[]
+        public override Type[] Filters { get; } = 
             {typeof(PositionComponent), typeof(ColliderComponent), typeof(TagComponent)};
 
         public override void Execute(Entity[] entities)

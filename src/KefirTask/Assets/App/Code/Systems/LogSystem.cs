@@ -7,7 +7,7 @@ namespace App.Code.Systems
 {
     public class LogSystem : ECS.System
     {
-        public override Type[] Filters => new[] {typeof(LogComponent)};
+        public override Type[] Filters { get; } = {typeof(LogComponent)};
 
         protected override void Execute(Entity entity)
         {

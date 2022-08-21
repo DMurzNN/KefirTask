@@ -7,12 +7,11 @@ namespace App.Code.Systems
 {
     public class EnemySpawnerSystem : ECS.System
     {
-
         private readonly ITimeService _timeService;
         private readonly IEntityFactory _entityFactory;
         private readonly IWorldBoundsService _worldBoundsService;
 
-        public override Type[] Filters => new[] {typeof(EnemySpawnerComponent)};
+        public override Type[] Filters { get; } = {typeof(EnemySpawnerComponent)};
 
         public EnemySpawnerSystem(ITimeService timeService, IEntityFactory entityFactory,
             IWorldBoundsService worldBoundsService)

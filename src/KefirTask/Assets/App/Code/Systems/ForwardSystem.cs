@@ -7,7 +7,8 @@ namespace App.Code.Systems
 {
     public class ForwardSystem : ECS.System
     {
-        public override Type[] Filters => new[] {typeof(ForwardComponent), typeof(RotateComponent)};
+        public override Type[] Filters { get; } =
+            {typeof(ForwardComponent), typeof(RotateComponent)};
 
         protected override void Execute(Entity entity)
         {

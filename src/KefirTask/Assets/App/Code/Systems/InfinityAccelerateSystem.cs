@@ -11,7 +11,7 @@ namespace App.Code.Systems
         private readonly ITimeService _timeService;
         private readonly IWorldBoundsService _worldBoundsService;
 
-        public override Type[] Filters => new[]
+        public override Type[] Filters { get; } =
             {typeof(PositionComponent), typeof(InfinityAccelerationComponent)};
 
         public InfinityAccelerateSystem(ITimeService timeService, IWorldBoundsService worldBoundsService)

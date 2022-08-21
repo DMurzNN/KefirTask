@@ -8,8 +8,8 @@ namespace App.Code.Systems
     public class LaserRefillSystem : ECS.System
     {
         private readonly ITimeService _timeService;
-        
-        public override Type[] Filters => new[] {typeof(LaserShootComponent)};
+
+        public override Type[] Filters { get; } = {typeof(LaserShootComponent)};
 
         public LaserRefillSystem(ITimeService timeService) =>
             _timeService = timeService;

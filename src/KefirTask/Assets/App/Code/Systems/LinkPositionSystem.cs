@@ -7,7 +7,8 @@ namespace App.Code.Systems
 {
     public class LinkPositionSystem : ECS.System
     {
-        public override Type[] Filters => new[] {typeof(LinkComponent), typeof(PositionComponent)};
+        public override Type[] Filters { get; } =
+            {typeof(LinkComponent), typeof(PositionComponent)};
 
         protected override void Execute(Entity entity) =>
             entity

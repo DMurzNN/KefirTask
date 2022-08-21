@@ -7,7 +7,7 @@ namespace App.Code.Systems
 {
     public class LookAtForwardSystem : ECS.System
     {
-        public override Type[] Filters => new[]
+        public override Type[] Filters { get; } =
             {typeof(LinkComponent), typeof(LookAtForwardComponent), typeof(ForwardComponent)};
 
         protected override void Execute(Entity entity)

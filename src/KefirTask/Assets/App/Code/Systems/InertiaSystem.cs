@@ -11,7 +11,7 @@ namespace App.Code.Systems
         private readonly ITimeService _timeService;
         private IWorldBoundsService _worldBoundsService;
 
-        public override Type[] Filters => new[]
+        public override Type[] Filters { get; } =
         {
             typeof(InertiaComponent), typeof(DynamicComponent), typeof(PositionComponent), typeof(SpeedComponent),
             typeof(ForwardComponent)
