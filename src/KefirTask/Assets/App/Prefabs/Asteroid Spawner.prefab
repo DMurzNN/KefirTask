@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Component:
-    SpawnTime: 10
+    SpawnTime: 3
     SpawnCooldown: 0
     EntityPrefab: {fileID: 801534020369887612, guid: 917feef4f7f1e174aaf7b46ab59ee334, type: 3}
 --- !u!114 &2112147284727823563

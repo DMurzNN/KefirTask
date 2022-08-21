@@ -17,6 +17,8 @@ namespace App.Code.Core
 #endif
         public Camera MainCamera;
         public Mediator Mediator;
+        public InputService InputService;
+        
         public PrefabEntity Player;
         public PrefabEntity Bullet;
         public PrefabEntity Laser;
@@ -28,7 +30,6 @@ namespace App.Code.Core
         private IEntityFactory _entityFactory;
         private IScreenSizeService _screenSizeService;
         private ITimeService _timeService;
-        private IInputService _inputService;
         private IWorldBoundsService _worldBoundsService;
         private IBulletFactory _bulletFactory;
         private ILaserFactory _laserFactory;
@@ -38,7 +39,7 @@ namespace App.Code.Core
 
         private void Awake()
         {
-            Mediator.Restart();
+            Mediator.Init();
             ConstructWorld();
         }
 
@@ -51,6 +52,9 @@ namespace App.Code.Core
             _mainWorld.ClearWorld();
             SetupEntities();
         }
+
+        public void Stop() => 
+            _mainWorld.ClearWorld();
 
         private void ConstructWorld()
         {
@@ -67,7 +71,6 @@ namespace App.Code.Core
             _entityFactory = new EntityFactory(_mainWorld);
             _screenSizeService = new ScreenSizeService();
             _timeService = new UnityTimeService();
-            _inputService = new UnityInputService();
             _worldBoundsService = new WorldBoundsService(MainCamera, _screenSizeService);
             _bulletFactory = new BulletFactory(Bullet, _entityFactory);
             _laserFactory = new LaserFactory(Laser, _entityFactory);
@@ -78,7 +81,6 @@ namespace App.Code.Core
         private void SetupServices() =>
             _mainWorld
                 .AddService(_timeService)
-                .AddService(_inputService)
                 .AddService(_screenSizeService)
                 .AddService(_worldBoundsService);
 
@@ -88,18 +90,18 @@ namespace App.Code.Core
             _entityFactory.Create(AsteroidSpawner);
             _entityFactory.Create(EnemySpawner)
                 .GetComponent<EnemySpawnerComponent>().PlayerPosition = _player.GetComponent<PositionComponent>();
-            
+
             _scoreService.RegisterPlayer(_player.GetComponent<ScoreComponent>());
         }
 
         private void SetupSystems() =>
             _mainWorld
                 .AddSystem(new LogSystem())
-                .AddSystem(new MoveSystem(_worldBoundsService, _inputService, _timeService))
-                .AddSystem(new RotateSystem(_timeService, _inputService))
+                .AddSystem(new MoveSystem(_worldBoundsService, InputService, _timeService))
+                .AddSystem(new RotateSystem(_timeService, InputService))
                 .AddSystem(new ForwardSystem())
-                .AddSystem(new BulletShootSystem(_bulletFactory, _inputService))
-                .AddSystem(new LaserShootSystem(_laserFactory, _inputService))
+                .AddSystem(new BulletShootSystem(_bulletFactory, InputService))
+                .AddSystem(new LaserShootSystem(_laserFactory, InputService))
                 .AddSystem(new LaserRefillSystem(_timeService))
                 .AddSystem(new InfinityAccelerateSystem(_timeService, _worldBoundsService))
                 .AddSystem(new FollowSystem(_timeService))
@@ -110,10 +112,15 @@ namespace App.Code.Core
                 .AddSystem(new LookAtForwardSystem())
                 .AddSystem(new LifetimeSystem(_timeService))
                 .AddSystem(new LinkToParentSystem())
+                .AddSystem(new CoordinateUISystem(Mediator))
+                .AddSystem(new SpeedUISystem(Mediator))
+                .AddSystem(new LaserUISystem(Mediator))
+                .AddSystem(new AngleUISystem(Mediator))
                 .AddSystem(new UpdateCapsuleColliderSystem())
                 .AddSystem(new CollisionSystem())
                 .AddSystem(new CrashSystem(_pieceFactory))
                 .AddSystem(new DestroyByPlayerSystem(_scoreService))
-                .AddSystem(new DestroySystem());
+                .AddSystem(new DestroySystem())
+                .AddSystem(new PlayerDestroySystem(Mediator));
     }
 }

@@ -36,7 +36,7 @@ namespace App.Code.Systems
                     .With(p => p.Position = _worldBoundsService.RandomPosition())
                     .With(p => p.PrevPosition = p.Position);
                 enemy
-                    .GetComponent<InfinityAccelerationComponent>()
+                    .GetComponent<AccelerationComponent>()
                     .With(c => c.AccelerationDirection = new Vector2().RandomDirection().To3D() * c.Acceleration);
             }
             else

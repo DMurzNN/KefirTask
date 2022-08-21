@@ -1,10 +1,13 @@
-﻿using System;
+using System;
+using UnityEngine;
+using Component = App.ECS.Component;
 
 namespace App.Code.Components
 {
     [Serializable]
-    public class AccelerationComponent : InfinityAccelerationComponent
+    public class AccelerationComponent : Component
     {
-        public float Deceleration = 0.5f;
+        public float Acceleration = 0.01f;
+        public Vector3 AccelerationDirection;
     }
 }

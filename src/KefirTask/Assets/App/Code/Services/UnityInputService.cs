@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using App.ECS;
+using UnityEngine;
 
 namespace App.Code.Services
 {
-    public class UnityInputService : IInputService
+    public class UnityInputService : IInputService, IService
     {
         public float Horizontal { get; private set; }
 

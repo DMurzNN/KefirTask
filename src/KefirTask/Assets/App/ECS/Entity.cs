@@ -48,6 +48,9 @@ namespace App.ECS
             return null;
         }
 
+        public bool RemoveComponent<TComponent>() where TComponent : Component => 
+            _components.Remove(typeof(TComponent));
+
         public bool HasComponent<T>() =>
             _components.ContainsKey(typeof(T));
 

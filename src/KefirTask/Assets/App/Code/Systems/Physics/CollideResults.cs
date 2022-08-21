@@ -56,9 +56,15 @@ namespace App.Code.Systems.Physics
         public static void PlayerDamaged(Entity entityA, Tag tagA, Entity entityB, Tag tagB)
         {
             if (tagA == Tag.Player)
+            {
+                entityA.AddComponent<PlayerDestroyComponent>();
                 entityA.AddComponent<DestroyComponent>();
+            }
             else if (tagB == Tag.Player)
+            {
+                entityB.AddComponent<PlayerDestroyComponent>();
                 entityB.AddComponent<DestroyComponent>();
+            }
         }
 
         public static void EnemyDamagedByLaser(Entity entityA, Tag tagA, Entity entityB, Tag tagB)

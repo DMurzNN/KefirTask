@@ -22,9 +22,9 @@ namespace App.Code.Services
                 .GetComponent<ForwardComponent>()
                 .With(c => c.Forward = direction.normalized);
             entity.With(e => e
-                    .GetComponent<InfinityAccelerationComponent>()
+                    .GetComponent<AccelerationComponent>()
                     .With(c => c.AccelerationDirection = direction * c.Acceleration),
-                entity.HasComponent<InfinityAccelerationComponent>());
+                entity.HasComponent<AccelerationComponent>());
             return entity;
         }
     }

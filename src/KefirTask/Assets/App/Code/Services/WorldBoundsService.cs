@@ -52,6 +52,6 @@ namespace App.Code.Services
         }
 
         private void UpdateBounds() =>
-            WorldBounds = _mainCamera.ScreenToWorldPoint(_screenSize);
+            WorldBounds = _mainCamera.ScreenToWorldPoint(_screenSize).To2D();
     }
 }

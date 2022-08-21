@@ -14,7 +14,8 @@ namespace App.Code.Systems
 
         public override Type[] Filters { get; } =
         {
-            typeof(SpeedComponent), typeof(PositionComponent), typeof(ForwardComponent), typeof(AccelerationComponent)
+            typeof(SpeedComponent), typeof(PositionComponent), typeof(ForwardComponent), typeof(DecelerationComponent),
+            typeof(AccelerationComponent), typeof(MoveByInputComponent)
         };
 
         public MoveSystem(IWorldBoundsService worldBoundsService, IInputService inputService, ITimeService timeService)
@@ -30,15 +31,16 @@ namespace App.Code.Systems
             var position = entity.GetComponent<PositionComponent>();
             var forward = entity.GetComponent<ForwardComponent>();
             var acceleration = entity.GetComponent<AccelerationComponent>();
+            var deceleration = entity.GetComponent<DecelerationComponent>();
 
             var vertical = _inputService.Vertical;
             var worldBounds = _worldBoundsService.WorldBounds.To3D();
             var moveSpeed = vertical == 0 ? -1.0f : vertical;
 
             var newAccelerationDirection = CalcDirection(acceleration.AccelerationDirection, forward.Forward, moveSpeed,
-                acceleration.Acceleration, moveSpeed >= 0, acceleration.Deceleration);
+                acceleration.Acceleration, moveSpeed >= 0, deceleration.Deceleration);
             var newPosition = position.Position + newAccelerationDirection;
-            var newSpeed = (newPosition - position.Position).magnitude / _timeService.PrevDeltaTime;
+            var newSpeed = (newPosition - position.Position).magnitude / _timeService.DeltaTime;
 
             if (vertical <= 0.0f && speed.Speed.InRange(0.0f, 0.005f))
             {

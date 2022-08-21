@@ -1,8 +1,6 @@
-﻿using App.ECS;
-
-namespace App.Code.Services
+﻿namespace App.Code.Services
 {
-    public interface IInputService : IService
+    public interface IInputService
     {
         public float Horizontal { get; }
         public float Vertical { get; }

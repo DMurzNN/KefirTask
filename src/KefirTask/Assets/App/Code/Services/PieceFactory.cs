@@ -16,7 +16,7 @@ namespace App.Code.Services
             _entityFactory
                 .Create(prefab)
                 .With(e => e.GetComponent<PositionComponent>().Position = position)
-                .With(e => e.GetComponent<InfinityAccelerationComponent>().With(c => c.AccelerationDirection =
+                .With(e => e.GetComponent<AccelerationComponent>().With(c => c.AccelerationDirection =
                     new Vector2().RandomDirection().To3D() * c.Acceleration));
     }
 }
